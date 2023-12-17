@@ -15,7 +15,8 @@
                                     alt="Image" class="img-fluid">
                             </figure>
                             <span class="d-inline-block mt-1">By {{$single->user->name}}</span>
-                            <span> {{$single->created_at}}</span>
+                            <span> {{ date('j F, Y', strtotime($single->created_at)) }}</span>
+
                         </div>
                     </div>
                 </div>
@@ -38,11 +39,12 @@
                     <div class="pt-5">
                         <p>Categories: <a href="#">{{$single->category}}</a></p>
                     </div>
-@auth()
-    @if(auth()->user()->id ==$single->user_id)
-                    <p><a href="{{route('post.delete',$single->id)}}" class="btn btn-danger btn-sm rounded px-2 py-2">Delete</a>
-                           <a href="{{route('post.edit',$single->id)}}" class="btn btn-warning btn-sm rounded px-2 py-2">Edit</a></p>
-
+                    @auth()
+                        @if(auth()->user()->id ==$single->user_id)
+                            <p><a href="{{route('post.delete',$single->id)}}"
+                                  class="btn btn-danger btn-sm rounded px-2 py-2">Delete</a>
+                                <a href="{{route('post.edit',$single->id)}}"
+                                   class="btn btn-warning btn-sm rounded px-2 py-2">Edit</a></p>
 
                         @endif
                     @endauth
@@ -98,9 +100,9 @@
                                               rows="10" class="form-control"></textarea>
                                 </div>
                                 @auth()
-                                <div class="form-group">
-                                    <input type="submit" name="submit" value="Post Comment" class="btn btn-primary">
-                                </div>
+                                    <div class="form-group">
+                                        <input type="submit" name="submit" value="Post Comment" class="btn btn-primary">
+                                    </div>
                                 @endauth
                             </form>
                         </div>
@@ -119,8 +121,9 @@
                                  class="img-fluid mb-3">
                             <div class="bio-body">
                                 <h2>{{$single->user->name}}</h2>
-                                <p class="mb-4">{{$single->user->bio}}</p>
-                                <p><a href="#" class="btn btn-primary btn-sm rounded px-2 py-2">Read my bio</a></p>
+                                <p class="mb-4">{{substr($single->user->bio , 1,30)}}</p>
+                                <p><a href="{{route('user.profile',$single->user->id)}}"
+                                      class="btn btn-primary btn-sm rounded px-2 py-2">Read my bio</a></p>
                                 <p class="social">
                                     <a href="#" class="p-2"><span class="fa fa-facebook"></span></a>
                                     <a href="#" class="p-2"><span class="fa fa-twitter"></span></a>

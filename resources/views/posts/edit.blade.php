@@ -5,9 +5,10 @@
     <div class="comment-form-wrap pt-5">
 
         <h3 class="mb-5">Edit Post</h3>
-        <form action="{{route('post.update',$single->id)}}" method="POST" class="p-5 bg-light" enctype="multipart/form-data">
+        <form action="{{route('post.update',$single->id)}}" method="POST" class="p-5 bg-light"
+              enctype="multipart/form-data">
             @csrf
-@method('PUT')
+            @method('PUT')
             <div class="form-group">
                 <label for="message">Title</label>
                 <input type="text" placeholder="Title ..." name="title" value="{{$single->title}} " class="form-control"

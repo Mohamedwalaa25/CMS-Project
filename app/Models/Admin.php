@@ -8,7 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable
+class Admin extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
@@ -20,9 +20,8 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
-        'image',
-        'bio',
         'password',
+        'user_id'
     ];
 
     /**
@@ -54,6 +53,10 @@ class User extends Authenticatable
     public function comment(){
         return $this->hasMany(Comment::class);
     }
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
     /**
      * The attributes that should be cast.
@@ -64,8 +67,4 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
-    public function hasRole($roleName)
-    {
-        return $this->role == $roleName; // sample implementation only
-    }
 }

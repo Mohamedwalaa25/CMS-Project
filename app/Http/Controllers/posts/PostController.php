@@ -9,11 +9,13 @@ use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use function Laravel\Prompts\select;
 
 class PostController extends Controller
 {
     public function index()
     {
+
         $posts = Post::all()->take(2);
         $postsOne = Post::take(1)->orderby('id', 'DESC')->get();
         $postsTwo = Post::take(2)->orderby('title', 'DESC')->get();
@@ -74,11 +76,10 @@ class PostController extends Controller
     public function create()
     {
 
-        if(auth()->user()) {
+        if (auth()->user()) {
             $categories = Category::all();
             return view('posts.create', compact('categories'));
-        }
-        else
+        } else
             return redirect('login');
 
 
@@ -113,23 +114,35 @@ class PostController extends Controller
     {
         $single = Post::query()->findOrFail($id);
         $categories = Category::all();
-        if(auth()->user()->id ==$single->id) {
+        if (auth()->user()->id == $single->id) {
             return view('posts.edit', compact('single', 'categories'));
-        }
-        else
+        } else
             return abort('404');
     }
-    public function update(Request $request ,$id){
+
+    public function update(Request $request, $id)
+    {
         $destinationPath = 'assets/images/';
         $myimage = $request->image->getClientOriginalName();
         $request->image->move(public_path($destinationPath), $myimage);
 
-        $update=Post::query()->findOrFail($id);
-      $update->update($request->all());
+        $update = Post::query()->findOrFail($id);
+        $update->update($request->all());
         $update->save();
-        return redirect('posts/'.$id.'/single')->with('edit', 'Edit posts successfully');
+        return redirect('posts/' . $id . '/single')->with('edit', 'Edit posts successfully');
 
     }
 
+    public function about()
+    {
+        return view('about');
+    }
+
+    public function search(Request $request)
+    {
+        $search= $request->get('search');
+        $result=Post::query()->select()->where('title','like','%'.$search.'%')->get();
+        return view('pages.search',compact('result'));
+    }
 }
 

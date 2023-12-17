@@ -56,14 +56,21 @@
                             <ul class="js-clone-nav d-none d-lg-inline-block text-start site-menu mx-auto">
                                 <li class="active"><a href="{{ url('/') }}">Home</a></li>
 
-                                <li><a href="category.html">Culture</a></li>
-                                <li><a href="category.html">Business</a></li>
-                                <li><a href="category.html">Politics</a></li>
+                                <li><a href="{{route('category.name','Culture')}}">Culture</a></li>
+                                <li><a href="{{route('category.name','Business')}}">Business</a></li>
+                                <li><a href="{{route('category.name','Politics')}}">Politics</a></li>
 
                                 <li><a href="{{route('post.create')}}">Create Post</a></li>
 
                                 <li><a href="contact.html">Contact Us</a></li>
                                 <li><a href="about.html">About Us</a></li>
+
+
+                                @if (auth()->check())
+                                    @if (auth()->user()->hasRole('Admin'))
+                                        <li><a href="{{route('admin.login')}}">Admin Panel</a></li>
+                                    @endif
+                                @endif
 
                                 @guest
                                     @if (Route::has('login'))
@@ -81,6 +88,10 @@
                                         </a>
 
                                         <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                            <a class="dropdown-item" href="{{ route('user.edit',auth()->user()->id) }}">
+                                                Update Profile
+                                            </a>
+
                                             <a class="dropdown-item" href="{{ route('logout') }}"
                                                onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
@@ -102,8 +113,10 @@
                                class="burger ms-auto float-end site-menu-toggle js-menu-toggle d-inline-block d-lg-none light">
                                 <span></span>
                             </a>
-                            <form action="#" class="search-form d-none d-lg-inline-block">
-                                <input type="text" class="form-control" placeholder="Search...">
+                            <form action="{{route('post.search')}}" method="GET"
+                                  class="search-form d-none d-lg-inline-block">
+                                @csrf
+                                <input name="search" type="text" class="form-control" placeholder="Search...">
                                 <span class="bi-search"></span>
                             </form>
                         </div>
@@ -124,7 +137,8 @@
             <div class="col-lg-4">
                 <div class="widget">
                     <h3 class="mb-4">About</h3>
-                    <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+                    <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there
+                        live the blind texts.</p>
                 </div> <!-- /.widget -->
                 <div class="widget">
                     <h3>Social</h3>
@@ -166,7 +180,8 @@
                         <ul>
                             <li>
                                 <a href="">
-                                    <img src="{{asset('assets/images/img_1_sq.jpg')}}" alt="Image placeholder" class="me-4 rounded">
+                                    <img src="{{asset('assets/images/img_1_sq.jpg')}}" alt="Image placeholder"
+                                         class="me-4 rounded">
                                     <div class="text">
                                         <h4>There’s a Cool New Way for Men to Wear Socks and Sandals</h4>
                                         <div class="post-meta">
@@ -177,7 +192,8 @@
                             </li>
                             <li>
                                 <a href="">
-                                    <img src="{{asset('assets/images/img_2_sq.jpg')}}" alt="Image placeholder" class="me-4 rounded">
+                                    <img src="{{asset('assets/images/img_2_sq.jpg')}}" alt="Image placeholder"
+                                         class="me-4 rounded">
                                     <div class="text">
                                         <h4>There’s a Cool New Way for Men to Wear Socks and Sandals</h4>
                                         <div class="post-meta">
@@ -188,7 +204,8 @@
                             </li>
                             <li>
                                 <a href="">
-                                    <img src="{{asset('assets/images/img_3_sq.jpg')}}" alt="Image placeholder" class="me-4 rounded">
+                                    <img src="{{asset('assets/images/img_3_sq.jpg')}}" alt="Image placeholder"
+                                         class="me-4 rounded">
                                     <div class="text">
                                         <h4>There’s a Cool New Way for Men to Wear Socks and Sandals</h4>
                                         <div class="post-meta">
@@ -214,7 +231,10 @@
                     **==========
                   -->
 
-                <p>Copyright &copy;<script>document.write(new Date().getFullYear());</script>. All Rights Reserved. &mdash; Designed with love by <a href="https://untree.co">Untree.co</a>  Distributed by <a href="https://themewagon.com">ThemeWagon</a> <!-- License information: https://untree.co/license/ -->
+                <p>Copyright &copy;<script>document.write(new Date().getFullYear());</script>
+                    . All Rights Reserved. &mdash; Designed with love by <a href="https://untree.co">Untree.co</a>
+                    Distributed by <a href="https://themewagon.com">ThemeWagon</a>
+                    <!-- License information: https://untree.co/license/ -->
                 </p>
             </div>
         </div>
