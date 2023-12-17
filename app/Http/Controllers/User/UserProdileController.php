@@ -18,7 +18,7 @@ class UserProdileController extends Controller
         $user = User::query()->findOrFail($id);
         Request()->validate([
             'name'=>'required',
-            'email;'=>'required,unique:users',
+            'email'=>'required,unique:users',
             'bio'=>'required',
         ]);
         $user->update($request->all());
