@@ -29,6 +29,8 @@ public  function profile($id){
         $postprofile= Post::query()->where('user_id',$id)->take(4)->orderBy('created_at','Desc')->get();
         return view('user.profile' ,compact('profile','postprofile'));
 
+        //comment 5
+
 }
 
 }

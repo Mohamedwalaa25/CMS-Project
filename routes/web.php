@@ -72,6 +72,11 @@ Route::group(['prefix'=>'admin/',"middleware"=>['auth:admin']],function (){
     Route::get('posts/index', [AdminController::class,'AllPosts'])->name('admin_posts.index');
     Route::get('posts/delete/{id}', [AdminController::class,'deletePost'])->name('admin_posts.delete');
 
+    //comment1
+
+        //comment2
+
+
 
 });
 
