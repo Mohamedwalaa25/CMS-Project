@@ -43,6 +43,7 @@ class AdminController extends Controller
             ->withErrors(['email' => 'Invalid credentials'])
             ->withInput();
     }
+    //comment 4
 
 
     public function index()
@@ -142,7 +143,14 @@ class AdminController extends Controller
         $file_path=public_path('asset/images/'.$posts->image);
         unlink($file_path);
         $posts->delete();
+        //comment 6
         return redirect('admin/posts/index')->with('delete', 'Admin Deleted Post Successfully');
 
     }
+
+
+            //comment 7
+
+            //final commit
+
 }
